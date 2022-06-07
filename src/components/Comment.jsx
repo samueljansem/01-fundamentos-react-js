@@ -1,34 +1,55 @@
+import { useState } from 'react';
 import { ThumbsUp, Trash } from 'phosphor-react';
+import { Avatar } from './Avatar';
 import styles from './Comment.module.css';
 
-export function Comment() {
+export function Comment({ content, onDeleteComment }) {
+    const [likes, setLikes] = useState(0);
+
+    function handleDeleteComment() {
+        onDeleteComment(content);
+    }
+
+    function handleLikeComment() {
+        setLikes(likes + 1);
+    }
+
     return (
         <div className={styles.comment}>
-            <img src='https://github.com/samueljansem.png' />
+            <Avatar
+                hasBorder={false}
+                src="https://github.com/samueljansem.png"
+            />
 
             <div className={styles.commentBox}>
                 <div className={styles.commentContent}>
                     <header>
                         <div className={styles.authorAndTime}>
                             <strong>Samuel Jansem</strong>
-                            <time title='06 de Junho às 22:27' dateTime='2022-06-06 22:27'>
+                            <time
+                                title="06 de Junho às 22:27"
+                                dateTime="2022-06-06 22:27"
+                            >
                                 Cerca de 1h
                             </time>
                         </div>
 
-                        <button title='Deletar comentário'>
+                        <button
+                            onClick={handleDeleteComment}
+                            title="Deletar comentário"
+                        >
                             <Trash size={24} />
                         </button>
                     </header>
 
-                    <p>Muito bom, parabens!</p>
+                    <p>{content}</p>
                 </div>
 
                 <footer>
-                    <button>
+                    <button onClick={handleLikeComment}>
                         <ThumbsUp />
                         Aplaudir
-                        <span>20</span>
+                        <span>{likes}</span>
                     </button>
                 </footer>
             </div>
